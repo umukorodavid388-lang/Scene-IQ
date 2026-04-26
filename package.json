@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "scene-iq-monorepo",
+  "version": "0.1.0",
+  "workspaces": ["frontend"],
+  "scripts": {
+    "bootstrap": "npm install",
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  }
+}
