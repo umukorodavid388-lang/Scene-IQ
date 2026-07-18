@@ -9,10 +9,23 @@ export default function App() {
   useEffect(() => {
     getMovies()
       .then((data) => {
-        setMovies(data.results || data);
+        // The backend MovieViewSet.list() proxies to the OMDb external API
+        // and returns: { page, total_results, results: [...] }
+        //
+        // Standard DRF pagination (for local DB queries) returns:
+        // { count, next, previous, results: [...] }
+        //
+        // Handle both shapes — plus a raw array fallback.
+        if (Array.isArray(data)) {
+          setMovies(data);
+        } else if (data.results) {
+          setMovies(data.results);
+        } else {
+          setMovies([]);
+        }
       })
-      .catch((error) => {
-        setError(error.message);
+      .catch((err) => {
+        setError(err.message);
       })
       .finally(() => {
         setLoading(false);
@@ -38,7 +51,9 @@ export default function App() {
             ) : (
               <ul>
                 {movies.map((movie) => (
-                  <li key={movie.id || movie.pk}>{movie.title || movie.name}</li>
+                  <li key={movie.id || movie.imdb_id}>
+                    {movie.title || movie.name}
+                  </li>
                 ))}
               </ul>
             )}
