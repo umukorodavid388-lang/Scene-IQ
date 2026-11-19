@@ -9,7 +9,7 @@ http://localhost:8000/api
 
 ---
 
-## Endpoints Overview
+  ## Endpoints Overview
 
 ### Movies API
 - `GET /movies/` - List all movies
